@@ -1,0 +1,4 @@
+# for hiper gator server 9000 is occupied
+Modified server address - /home/somasundaramv/.conda/envs/DAIL-SQL/lib/python3.8/site-packages/corenlp/client.py to an open port
+Port found using - ss -tulpn and then utilizing an udp port 
+Do not need to run the server manually the python pacakage does it

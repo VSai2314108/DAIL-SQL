@@ -1,0 +1,13 @@
+.idea
+.DS_Store
+*.db
+*.sql
+*.sqlite
+*.jsonl
+/dataset/spider
+*.pyc
+*.jar
+/third_party
+/img
+/test-suite-sql-eval-master
+/vector_cache
