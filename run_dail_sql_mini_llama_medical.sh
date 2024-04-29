@@ -6,13 +6,14 @@
 #SBATCH --mail-user=somasundaramv@ufl.edu
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=4
+#SBATCH --cpus-per-task=16
 #SBATCH --ntasks-per-node=1
 #SBATCH --distribution=cyclic:cyclic
 #SBATCH --partition=gpu
 #SBATCH --gres=gpu:a100:1
-#SBATCH --mem-per-gpu=70000
-#SBATCH --time=72:00:00
+#SBATCH --time=96:00:00
+#SBATCH --account=dream_team
+#SBATCH --qos=dream_team
 
 
 export HF_HOME=/blue/daisyw/somasundaramv/mis
@@ -36,22 +37,22 @@ nvcc --version
 # echo "data_preprocess"
 # python data_preprocess.py --data_dir /blue/daisyw/somasundaramv/DAIL-SQL/dataset/mimic --data_type mimic
 
-echo "generate question with EUCDISQUESTIONMASK"
-python generate_question.py \
---data_type mimic \
---split test \
---tokenizer gpt-3.5-turbo \
---max_seq_len 4096 \
---prompt_repr SQL \
---k_shot 1 \
---example_type QA \
---selector_type  EUCDISQUESTIONMASK
+# echo "generate question with EUCDISQUESTIONMASK"
+# python generate_question.py \
+# --data_type mimic \
+# --split test \
+# --tokenizer gpt-3.5-turbo \
+# --max_seq_len 4096 \
+# --prompt_repr SQL \
+# --k_shot 9 \
+# --example_type QA \
+# --selector_type  EUCDISQUESTIONMASK
 
 echo "generate SQL by LLAMA for EUCDISMASKPRESKLSIMTHR as the pre-generated SQL query"
-python ask_llm.py \
+python ask_llm_multi.py \
 --model code-llama-34B \
 --question /blue/daisyw/somasundaramv/DAIL-SQL/dataset/process/MIMIC-TEST_SQL_9-SHOT_EUCDISQUESTIONMASK_QA-EXAMPLE_CTX-200_ANS-4096/ \
---n 1 \
+--n 1 
 
 # echo "generate question with EUCDISMASKPRESKLSIMTHR"
 # python generate_question.py \

@@ -54,7 +54,6 @@ def ask_chat(model, messages: list, temperature, n):
     
 def ask_llama(model, message: str, text_generator: TextGenerator):
     print(f"ask_llama: {message}")
-    print(f"ask_llama_model: {model}")
     response_clean = text_generator.generate_text(message, 200)
     usage = {
             "prompt_tokens": 0,

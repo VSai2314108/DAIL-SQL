@@ -44,12 +44,14 @@ class BasicICLPrompt(object):
     def format(self, target: dict, max_seq_len: int, max_ans_len: int, scope_factor: int, cross_domain=False, *args, **kwargs):
         # target question
         prompt_target = self.format_target(target)
+        schema_target = self.format_schema_link_target(target)
         sum_tokens = count_tokens(prompt_target, tokenizer=self.tokenizer)
         
         if self.NUM_EXAMPLE != 0:
             # example questions
             examples = self.get_examples(target, self.NUM_EXAMPLE * scope_factor, cross_domain=cross_domain)
             prompt_example = list()
+            prompt_schema = list()
             question = target["question"]
             example_prefix = self.get_example_prefix()
             selected_examples = []
@@ -60,6 +62,7 @@ class BasicICLPrompt(object):
                     assert target["db_id"] != example["db_id"]
 
                 example_format = self.format_example(example)
+                schema_format = self.format_schema_link(example)
                 
                 # count tokens and drop the example if exceed max_len
                 forward_tokens = count_tokens(example_prefix + self.SEP_EXAMPLE.join(prompt_example + [example_format, prompt_target]), tokenizer=self.tokenizer)
@@ -67,6 +70,7 @@ class BasicICLPrompt(object):
                 if forward_tokens + max_ans_len <= max_seq_len:
                     # add an example
                     prompt_example.append(example_format)
+                    prompt_schema.append(schema_format)
                     # update tokens
                     sum_tokens = forward_tokens
                     # record the selected examples
@@ -81,6 +85,7 @@ class BasicICLPrompt(object):
             n_valid_example = len(prompt_example)
             if len(prompt_example) > 0:
                 prompt = example_prefix + self.SEP_EXAMPLE.join(prompt_example + [prompt_target])
+                schema = example_prefix + self.SEP_EXAMPLE.join(prompt_schema + [schema_target])
             else:
                 prompt = self.SEP_EXAMPLE.join(prompt_example + [prompt_target])
         else:
@@ -91,6 +96,7 @@ class BasicICLPrompt(object):
         return {
             "prompt_tokens": sum_tokens,
             "prompt": prompt,
+            "schema_prompt": schema,
             "response": response_clean, 
             "n_examples": n_valid_example,
             "db_id": target["db_id"]

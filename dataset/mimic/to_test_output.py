@@ -86,7 +86,9 @@ if __name__ == '__main__':
     if not os.path.exists(directory):
         os.makedirs(directory)
         
-    create_text_sql("/blue/daisyw/somasundaramv/DAIL-SQL/dataset/process/MIMIC-TEST_SQL_9-SHOT_EUCDISQUESTIONMASK_QA-EXAMPLE_CTX-200_ANS-4096/RESULTS_MODEL-code-llama-34B.txt", "/blue/daisyw/somasundaramv/DAIL-SQL/dataset/process/MIMIC-TEST_SQL_9-SHOT_EUCDISQUESTIONMASK_QA-EXAMPLE_CTX-200_ANS-4096/questions.json", directory=directory)
+    path_file = "/blue/daisyw/somasundaramv/DAIL-SQL/dataset/process/MIMIC-TEST_SQL_9-SHOT_EUCDISQUESTIONMASK_QA-EXAMPLE_CTX-200_ANS-4096/RESULTS_MODEL-code-llama-34B.txt"
+    path_json = "/blue/daisyw/somasundaramv/DAIL-SQL/dataset/process/MIMIC-TEST_SQL_9-SHOT_EUCDISQUESTIONMASK_QA-EXAMPLE_CTX-200_ANS-4096/questions.json"
+    create_text_sql(path_file, path_json, directory=directory)
     directory_list = load_results(directory)
     results = []
     for entry in directory_list:

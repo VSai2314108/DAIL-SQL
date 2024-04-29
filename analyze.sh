@@ -10,6 +10,8 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --distribution=cyclic:cyclic
 #SBATCH --time=48:00:00
+#SBATCH --account=dream_team
+#SBATCH --qos=dream_team
 
 cd /blue/daisyw/somasundaramv/DAIL-SQL
 module purge

@@ -1,0 +1,2200 @@
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: count the number of patients whose diagnosis short title is ath ext ntv at w claudct.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Ath ext ntv at w claudct']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID WHERE DIAGNOSES."SHORT_TITLE" = "Ath ext ntv at w claudct"
+
+/* Answer the following: count the number of patients whose diagnosis short title is hyperacusis and drug route is td.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID'), ('DEMOGRAPHIC.HADM_ID', 'PROCEDURES.HADM_ID'), ('DIAGNOSES.HADM_ID', 'PROCEDURES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Hyperacusis', 'PRESCRIPTIONS.ROUTE = TD']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID INNER JOIN PRESCRIPTIONS on DEMOGRAPHIC.HADM_ID = PRESCRIPTIONS.HADM_ID WHERE DIAGNOSES."SHORT_TITLE" = "Hyperacusis" AND PRESCRIPTIONS."ROUTE" = "TD"
+
+/* Answer the following: what is the number of patients whose admission year is before 2187 and with procedure title colostomy nos?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.ADMITYEAR < 2187', 'PROCEDURES.SHORT_TITLE = Colostomy NOS']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN PROCEDURES on DEMOGRAPHIC.HADM_ID = PROCEDURES.HADM_ID WHERE DEMOGRAPHIC."ADMITYEAR" < "2187" AND PROCEDURES."SHORT_TITLE" = "Colostomy NOS"
+
+/* Answer the following: count the number of patients whose diagnosis short title is status autm crd dfbrltr and drug route is im.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID'), ('DEMOGRAPHIC.HADM_ID', 'PROCEDURES.HADM_ID'), ('DIAGNOSES.HADM_ID', 'PROCEDURES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Status autm crd dfbrltr', 'PRESCRIPTIONS.ROUTE = IM']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID INNER JOIN PRESCRIPTIONS on DEMOGRAPHIC.HADM_ID = PRESCRIPTIONS.HADM_ID WHERE DIAGNOSES."SHORT_TITLE" = "Status autm crd dfbrltr" AND PRESCRIPTIONS."ROUTE" = "IM"
+
+/* Answer the following: provide the number of patients whose diagnosis short title is hy kid nos w cr kid i-iv.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Hy kid NOS w cr kid I-IV']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID WHERE DIAGNOSES."SHORT_TITLE" = "Hy kid NOS w cr kid I-IV"
+
+/* Answer the following: count the number of patients whose diagnosis short title is ac posthemorrhag anemia. */
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Ac posthemorrhag anemia']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID WHERE DIAGNOSES."SHORT_TITLE" = "Ac posthemorrhag anemia"
+
+/* Answer the following: count the number of patients whose drug name is pantoprazole.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['PRESCRIPTIONS.DRUG = Pantoprazole']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN PRESCRIPTIONS on DEMOGRAPHIC.HADM_ID = PRESCRIPTIONS.HADM_ID WHERE PRESCRIPTIONS."DRUG" = "Pantoprazole"
+
+/* Answer the following: count the number of patients whose insurance is medicare and diagnosis short title is ben neo spinal meninges.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.INSURANCE = Medicare', 'DIAGNOSES.SHORT_TITLE = Ben neo spinal meninges']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID WHERE DEMOGRAPHIC."INSURANCE" = "Medicare" AND DIAGNOSES."SHORT_TITLE" = "Ben neo spinal meninges"
+
+/* Answer the following: count the number of patients whose discharge location is disc-tran cancer/chldrn h and procedure short title is temporary colostomy.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.DISCHARGE_LOCATION = DISC-TRAN CANCER/CHLDRN H', 'PROCEDURES.SHORT_TITLE = Temporary colostomy']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN PROCEDURES on DEMOGRAPHIC.HADM_ID = PROCEDURES.HADM_ID WHERE DEMOGRAPHIC."DISCHARGE_LOCATION" = "DISC-TRAN CANCER/CHLDRN H" AND PROCEDURES."SHORT_TITLE" = "Temporary colostomy"
+
+/* Given the following database schema: */
+CREATE TABLE "DEMOGRAPHIC" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "NAME" TEXT,
+  "MARITAL_STATUS" TEXT,
+  "AGE" INTEGER,
+  "DOB" TEXT,
+  "GENDER" TEXT,
+  "LANGUAGE" TEXT,
+  "RELIGION" TEXT,
+  "ADMISSION_TYPE" TEXT,
+  "DAYS_STAY" INTEGER,
+  "INSURANCE" TEXT,
+  "ETHNICITY" TEXT,
+  "EXPIRE_FLAG" INTEGER,
+  "ADMISSION_LOCATION" TEXT,
+  "DISCHARGE_LOCATION" TEXT,
+  "DIAGNOSIS" TEXT,
+  "DOD" TEXT,
+  "DOB_YEAR" INTEGER,
+  "DOD_YEAR" REAL,
+  "ADMITTIME" TEXT,
+  "DISCHTIME" TEXT,
+  "ADMITYEAR" INTEGER
+)
+
+CREATE TABLE "DIAGNOSES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PROCEDURES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PRESCRIPTIONS" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICUSTAY_ID" TEXT,
+  "DRUG_TYPE" TEXT,
+  "DRUG" TEXT,
+  "FORMULARY_DRUG_CD" TEXT,
+  "ROUTE" TEXT,
+  "DRUG_DOSE" TEXT
+)
+
+CREATE TABLE "LAB" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ITEMID" TEXT,
+  "CHARTTIME" TEXT,
+  "FLAG" TEXT,
+  "VALUE_UNIT" TEXT,
+  "LABEL" TEXT,
+  "FLUID" TEXT,
+  "CATEGORY" TEXT
+)
+
+/* Answer the following: how many patients were born before the year 2060? */
+
+/* Some SQL examples are provided based on similar problems: */
+/* Find the Conditions and Foreign Keys Needed: count the number of patients whose diagnosis short title is ath ext ntv at w claudct.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Ath ext ntv at w claudct']
+
+/* Find the Conditions and Foreign Keys Needed: count the number of patients whose diagnosis short title is hyperacusis and drug route is td.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID'), ('DEMOGRAPHIC.HADM_ID', 'PROCEDURES.HADM_ID'), ('DIAGNOSES.HADM_ID', 'PROCEDURES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Hyperacusis', 'PRESCRIPTIONS.ROUTE = TD']
+
+/* Find the Conditions and Foreign Keys Needed: what is the number of patients whose admission year is before 2187 and with procedure title colostomy nos?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.ADMITYEAR < 2187', 'PROCEDURES.SHORT_TITLE = Colostomy NOS']
+
+/* Find the Conditions and Foreign Keys Needed: count the number of patients whose diagnosis short title is status autm crd dfbrltr and drug route is im.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID'), ('DEMOGRAPHIC.HADM_ID', 'PROCEDURES.HADM_ID'), ('DIAGNOSES.HADM_ID', 'PROCEDURES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Status autm crd dfbrltr', 'PRESCRIPTIONS.ROUTE = IM']
+
+/* Find the Conditions and Foreign Keys Needed: provide the number of patients whose diagnosis short title is hy kid nos w cr kid i-iv.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Hy kid NOS w cr kid I-IV']
+
+/* Find the Conditions and Foreign Keys Needed: count the number of patients whose diagnosis short title is ac posthemorrhag anemia. */
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Ac posthemorrhag anemia']
+
+/* Find the Conditions and Foreign Keys Needed: count the number of patients whose drug name is pantoprazole.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['PRESCRIPTIONS.DRUG = Pantoprazole']
+
+/* Find the Conditions and Foreign Keys Needed: count the number of patients whose insurance is medicare and diagnosis short title is ben neo spinal meninges.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.INSURANCE = Medicare', 'DIAGNOSES.SHORT_TITLE = Ben neo spinal meninges']
+
+/* Find the Conditions and Foreign Keys Needed: count the number of patients whose discharge location is disc-tran cancer/chldrn h and procedure short title is temporary colostomy.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.DISCHARGE_LOCATION = DISC-TRAN CANCER/CHLDRN H', 'PROCEDURES.SHORT_TITLE = Temporary colostomy']
+
+/* Given the following database schema: */
+CREATE TABLE "DEMOGRAPHIC" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "NAME" TEXT,
+  "MARITAL_STATUS" TEXT,
+  "AGE" INTEGER,
+  "DOB" TEXT,
+  "GENDER" TEXT,
+  "LANGUAGE" TEXT,
+  "RELIGION" TEXT,
+  "ADMISSION_TYPE" TEXT,
+  "DAYS_STAY" INTEGER,
+  "INSURANCE" TEXT,
+  "ETHNICITY" TEXT,
+  "EXPIRE_FLAG" INTEGER,
+  "ADMISSION_LOCATION" TEXT,
+  "DISCHARGE_LOCATION" TEXT,
+  "DIAGNOSIS" TEXT,
+  "DOD" TEXT,
+  "DOB_YEAR" INTEGER,
+  "DOD_YEAR" REAL,
+  "ADMITTIME" TEXT,
+  "DISCHTIME" TEXT,
+  "ADMITYEAR" INTEGER
+)
+
+CREATE TABLE "DIAGNOSES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PROCEDURES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PRESCRIPTIONS" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICUSTAY_ID" TEXT,
+  "DRUG_TYPE" TEXT,
+  "DRUG" TEXT,
+  "FORMULARY_DRUG_CD" TEXT,
+  "ROUTE" TEXT,
+  "DRUG_DOSE" TEXT
+)
+
+CREATE TABLE "LAB" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ITEMID" TEXT,
+  "CHARTTIME" TEXT,
+  "FLAG" TEXT,
+  "VALUE_UNIT" TEXT,
+  "LABEL" TEXT,
+  "FLUID" TEXT,
+  "CATEGORY" TEXT
+)
+
+/* Find the Conditions and Foreign Keys Needed: how many patients were born before the year 2060? */
+Foreign Keys:  
+---------------------------------------------------------------------
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: how many patients were diagnosed with seroma complicating procedure?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DIAGNOSES.LONG_TITLE = Seroma complicating a procedure']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID WHERE DIAGNOSES."LONG_TITLE" = "Seroma complicating a procedure"
+
+/* Answer the following: how many patients admitted in emergency were diagnosed with seroma complicating a procedure?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.ADMISSION_TYPE = EMERGENCY', 'DIAGNOSES.LONG_TITLE = Seroma complicating a procedure']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID WHERE DEMOGRAPHIC."ADMISSION_TYPE" = "EMERGENCY" AND DIAGNOSES."LONG_TITLE" = "Seroma complicating a procedure"
+
+/* Answer the following: how many male patients are diagnosed for seroma complicating a procedure?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.GENDER = M', 'DIAGNOSES.LONG_TITLE = Seroma complicating a procedure']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID WHERE DEMOGRAPHIC."GENDER" = "M" AND DIAGNOSES."LONG_TITLE" = "Seroma complicating a procedure"
+
+/* Answer the following: how many patients on neb route of drug administration have been diagnosed with seroma complicating a procedure? */
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID'), ('DEMOGRAPHIC.HADM_ID', 'PROCEDURES.HADM_ID'), ('DIAGNOSES.HADM_ID', 'PROCEDURES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Seroma complicting proc', 'PRESCRIPTIONS.ROUTE = NEB']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID INNER JOIN PRESCRIPTIONS on DEMOGRAPHIC.HADM_ID = PRESCRIPTIONS.HADM_ID WHERE DIAGNOSES."SHORT_TITLE" = "Seroma complicting proc" AND PRESCRIPTIONS."ROUTE" = "NEB"
+
+/* Answer the following: how many patients have been diagnosed with seroma complicating a procedure and are categorized under hematology lab test?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID'), ('DEMOGRAPHIC.HADM_ID', 'PROCEDURES.HADM_ID'), ('DIAGNOSES.HADM_ID', 'PROCEDURES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Seroma complicting proc', 'LAB.CATEGORY = Hematology']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE DIAGNOSES."SHORT_TITLE" = "Seroma complicting proc" AND LAB."CATEGORY" = "Hematology"
+
+/* Answer the following: which patients diagnosed with seroma complicating, a procedure, have drug administered via both eyes?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID'), ('DEMOGRAPHIC.HADM_ID', 'PROCEDURES.HADM_ID'), ('DIAGNOSES.HADM_ID', 'PROCEDURES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Seroma complicting proc', 'PRESCRIPTIONS.ROUTE = BOTH EYES']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID INNER JOIN PRESCRIPTIONS on DEMOGRAPHIC.HADM_ID = PRESCRIPTIONS.HADM_ID WHERE DIAGNOSES."SHORT_TITLE" = "Seroma complicting proc" AND PRESCRIPTIONS."ROUTE" = "BOTH EYES"
+
+/* Answer the following: among patients admitted in the year less than 2184, how many of them had seroma complicating a procedure?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.ADMITYEAR < 2184', 'DIAGNOSES.LONG_TITLE = Seroma complicating a procedure']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID WHERE DEMOGRAPHIC."ADMITYEAR" < "2184" AND DIAGNOSES."LONG_TITLE" = "Seroma complicating a procedure"
+
+/* Answer the following: how many of the patients diagnosed with seroma complicting proc were on self-pay*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.INSURANCE = Self Pay', 'DIAGNOSES.SHORT_TITLE = Seroma complicting proc']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID WHERE DEMOGRAPHIC."INSURANCE" = "Self Pay" AND DIAGNOSES."SHORT_TITLE" = "Seroma complicting proc"
+
+/* Answer the following: what is the primary disease and drug dose of subject id 18480?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.HADM_ID = 18480']
+SELECT DEMOGRAPHIC."DIAGNOSIS",PRESCRIPTIONS."DRUG_DOSE" FROM DEMOGRAPHIC INNER JOIN PRESCRIPTIONS on DEMOGRAPHIC.HADM_ID = PRESCRIPTIONS.HADM_ID WHERE DEMOGRAPHIC."SUBJECT_ID" = "18480"
+
+/* Given the following database schema: */
+CREATE TABLE "DEMOGRAPHIC" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "NAME" TEXT,
+  "MARITAL_STATUS" TEXT,
+  "AGE" INTEGER,
+  "DOB" TEXT,
+  "GENDER" TEXT,
+  "LANGUAGE" TEXT,
+  "RELIGION" TEXT,
+  "ADMISSION_TYPE" TEXT,
+  "DAYS_STAY" INTEGER,
+  "INSURANCE" TEXT,
+  "ETHNICITY" TEXT,
+  "EXPIRE_FLAG" INTEGER,
+  "ADMISSION_LOCATION" TEXT,
+  "DISCHARGE_LOCATION" TEXT,
+  "DIAGNOSIS" TEXT,
+  "DOD" TEXT,
+  "DOB_YEAR" INTEGER,
+  "DOD_YEAR" REAL,
+  "ADMITTIME" TEXT,
+  "DISCHTIME" TEXT,
+  "ADMITYEAR" INTEGER
+)
+
+CREATE TABLE "DIAGNOSES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PROCEDURES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PRESCRIPTIONS" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICUSTAY_ID" TEXT,
+  "DRUG_TYPE" TEXT,
+  "DRUG" TEXT,
+  "FORMULARY_DRUG_CD" TEXT,
+  "ROUTE" TEXT,
+  "DRUG_DOSE" TEXT
+)
+
+CREATE TABLE "LAB" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ITEMID" TEXT,
+  "CHARTTIME" TEXT,
+  "FLAG" TEXT,
+  "VALUE_UNIT" TEXT,
+  "LABEL" TEXT,
+  "FLUID" TEXT,
+  "CATEGORY" TEXT
+)
+
+/* Answer the following: how many patients had the diagnosis icd9 code 53190? */
+
+/* Some SQL examples are provided based on similar problems: */
+/* Find the Conditions and Foreign Keys Needed: how many patients were diagnosed with seroma complicating procedure?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DIAGNOSES.LONG_TITLE = Seroma complicating a procedure']
+
+/* Find the Conditions and Foreign Keys Needed: how many patients admitted in emergency were diagnosed with seroma complicating a procedure?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.ADMISSION_TYPE = EMERGENCY', 'DIAGNOSES.LONG_TITLE = Seroma complicating a procedure']
+
+/* Find the Conditions and Foreign Keys Needed: how many male patients are diagnosed for seroma complicating a procedure?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.GENDER = M', 'DIAGNOSES.LONG_TITLE = Seroma complicating a procedure']
+
+/* Find the Conditions and Foreign Keys Needed: how many patients on neb route of drug administration have been diagnosed with seroma complicating a procedure? */
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID'), ('DEMOGRAPHIC.HADM_ID', 'PROCEDURES.HADM_ID'), ('DIAGNOSES.HADM_ID', 'PROCEDURES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Seroma complicting proc', 'PRESCRIPTIONS.ROUTE = NEB']
+
+/* Find the Conditions and Foreign Keys Needed: how many patients have been diagnosed with seroma complicating a procedure and are categorized under hematology lab test?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID'), ('DEMOGRAPHIC.HADM_ID', 'PROCEDURES.HADM_ID'), ('DIAGNOSES.HADM_ID', 'PROCEDURES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Seroma complicting proc', 'LAB.CATEGORY = Hematology']
+
+/* Find the Conditions and Foreign Keys Needed: which patients diagnosed with seroma complicating, a procedure, have drug administered via both eyes?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID'), ('DEMOGRAPHIC.HADM_ID', 'PROCEDURES.HADM_ID'), ('DIAGNOSES.HADM_ID', 'PROCEDURES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Seroma complicting proc', 'PRESCRIPTIONS.ROUTE = BOTH EYES']
+
+/* Find the Conditions and Foreign Keys Needed: among patients admitted in the year less than 2184, how many of them had seroma complicating a procedure?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.ADMITYEAR < 2184', 'DIAGNOSES.LONG_TITLE = Seroma complicating a procedure']
+
+/* Find the Conditions and Foreign Keys Needed: how many of the patients diagnosed with seroma complicting proc were on self-pay*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.INSURANCE = Self Pay', 'DIAGNOSES.SHORT_TITLE = Seroma complicting proc']
+
+/* Find the Conditions and Foreign Keys Needed: what is the primary disease and drug dose of subject id 18480?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.HADM_ID = 18480']
+
+/* Given the following database schema: */
+CREATE TABLE "DEMOGRAPHIC" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "NAME" TEXT,
+  "MARITAL_STATUS" TEXT,
+  "AGE" INTEGER,
+  "DOB" TEXT,
+  "GENDER" TEXT,
+  "LANGUAGE" TEXT,
+  "RELIGION" TEXT,
+  "ADMISSION_TYPE" TEXT,
+  "DAYS_STAY" INTEGER,
+  "INSURANCE" TEXT,
+  "ETHNICITY" TEXT,
+  "EXPIRE_FLAG" INTEGER,
+  "ADMISSION_LOCATION" TEXT,
+  "DISCHARGE_LOCATION" TEXT,
+  "DIAGNOSIS" TEXT,
+  "DOD" TEXT,
+  "DOB_YEAR" INTEGER,
+  "DOD_YEAR" REAL,
+  "ADMITTIME" TEXT,
+  "DISCHTIME" TEXT,
+  "ADMITYEAR" INTEGER
+)
+
+CREATE TABLE "DIAGNOSES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PROCEDURES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PRESCRIPTIONS" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICUSTAY_ID" TEXT,
+  "DRUG_TYPE" TEXT,
+  "DRUG" TEXT,
+  "FORMULARY_DRUG_CD" TEXT,
+  "ROUTE" TEXT,
+  "DRUG_DOSE" TEXT
+)
+
+CREATE TABLE "LAB" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ITEMID" TEXT,
+  "CHARTTIME" TEXT,
+  "FLAG" TEXT,
+  "VALUE_UNIT" TEXT,
+  "LABEL" TEXT,
+  "FLUID" TEXT,
+  "CATEGORY" TEXT
+)
+
+/* Find the Conditions and Foreign Keys Needed: how many patients had the diagnosis icd9 code 53190? */
+Foreign Keys:  
+---------------------------------------------------------------------
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: calculate the total number of patients who had mild degree malnutrition */
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Malnutrition mild degree']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID WHERE DIAGNOSES."SHORT_TITLE" = "Malnutrition mild degree"
+
+/* Answer the following: how many patients death status is 1 with malnutrition mild degree?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.EXPIRE_FLAG = 1', 'DIAGNOSES.SHORT_TITLE = Malnutrition mild degree']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID WHERE DEMOGRAPHIC."EXPIRE_FLAG" = "1" AND DIAGNOSES."SHORT_TITLE" = "Malnutrition mild degree"
+
+/* Answer the following: how many patients with malnutrition of mild degree stayed in the hospital for more than a day?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.DAYS_STAY > 1', 'DIAGNOSES.SHORT_TITLE = Malnutrition mild degree']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID WHERE DEMOGRAPHIC."DAYS_STAY" > "1" AND DIAGNOSES."SHORT_TITLE" = "Malnutrition mild degree"
+
+/* Answer the following: how many patients admitted before the year 2152 were diagnosed with malnutrion of mild degree?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.ADMITYEAR < 2152', 'DIAGNOSES.SHORT_TITLE = Malnutrition mild degree']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID WHERE DEMOGRAPHIC."ADMITYEAR" < "2152" AND DIAGNOSES."SHORT_TITLE" = "Malnutrition mild degree"
+
+/* Answer the following: give the number of patients whose language is english and diagnosis long title is unspecified protein-calorie malnutrition.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.LANGUAGE = ENGL', 'DIAGNOSES.LONG_TITLE = Unspecified protein-calorie malnutrition']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID WHERE DEMOGRAPHIC."LANGUAGE" = "ENGL" AND DIAGNOSES."LONG_TITLE" = "Unspecified protein-calorie malnutrition"
+
+/* Answer the following: how many of the patients with unspecified protein-calorie malnutrition were treated with a base drug?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID'), ('DEMOGRAPHIC.HADM_ID', 'PROCEDURES.HADM_ID'), ('DIAGNOSES.HADM_ID', 'PROCEDURES.HADM_ID')]
+Conditions: ['DIAGNOSES.LONG_TITLE = Unspecified protein-calorie malnutrition', 'PRESCRIPTIONS.DRUG_TYPE = BASE']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID INNER JOIN PRESCRIPTIONS on DEMOGRAPHIC.HADM_ID = PRESCRIPTIONS.HADM_ID WHERE DIAGNOSES."LONG_TITLE" = "Unspecified protein-calorie malnutrition" AND PRESCRIPTIONS."DRUG_TYPE" = "BASE"
+
+/* Answer the following: count the number of patients whose diagnosis short title is malnutrition mild degree and lab test fluid is urine.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID'), ('DEMOGRAPHIC.HADM_ID', 'PROCEDURES.HADM_ID'), ('DIAGNOSES.HADM_ID', 'PROCEDURES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Malnutrition mild degree', 'LAB.FLUID = Urine']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE DIAGNOSES."SHORT_TITLE" = "Malnutrition mild degree" AND LAB."FLUID" = "Urine"
+
+/* Answer the following: what is the number of patients diagnosed with nutritional marasmus who are prescribed additive type drugs?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID'), ('DEMOGRAPHIC.HADM_ID', 'PROCEDURES.HADM_ID'), ('DIAGNOSES.HADM_ID', 'PROCEDURES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Nutritional marasmus', 'PRESCRIPTIONS.DRUG_TYPE = ADDITIVE']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID INNER JOIN PRESCRIPTIONS on DEMOGRAPHIC.HADM_ID = PRESCRIPTIONS.HADM_ID WHERE DIAGNOSES."SHORT_TITLE" = "Nutritional marasmus" AND PRESCRIPTIONS."DRUG_TYPE" = "ADDITIVE"
+
+/* Answer the following: what is the number of patients aged less than 62 years who had hyperglycemia; hyponatremia primary disease?*/
+Foreign Keys: None
+Conditions: ['DEMOGRAPHIC.DIAGNOSIS = HYPERGLYCEMIA;HYPONATREMIA', 'DEMOGRAPHIC.AGE < 62']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC WHERE DEMOGRAPHIC."DIAGNOSIS" = "HYPERGLYCEMIA;HYPONATREMIA" AND DEMOGRAPHIC."AGE" < "62"
+
+/* Given the following database schema: */
+CREATE TABLE "DEMOGRAPHIC" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "NAME" TEXT,
+  "MARITAL_STATUS" TEXT,
+  "AGE" INTEGER,
+  "DOB" TEXT,
+  "GENDER" TEXT,
+  "LANGUAGE" TEXT,
+  "RELIGION" TEXT,
+  "ADMISSION_TYPE" TEXT,
+  "DAYS_STAY" INTEGER,
+  "INSURANCE" TEXT,
+  "ETHNICITY" TEXT,
+  "EXPIRE_FLAG" INTEGER,
+  "ADMISSION_LOCATION" TEXT,
+  "DISCHARGE_LOCATION" TEXT,
+  "DIAGNOSIS" TEXT,
+  "DOD" TEXT,
+  "DOB_YEAR" INTEGER,
+  "DOD_YEAR" REAL,
+  "ADMITTIME" TEXT,
+  "DISCHTIME" TEXT,
+  "ADMITYEAR" INTEGER
+)
+
+CREATE TABLE "DIAGNOSES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PROCEDURES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PRESCRIPTIONS" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICUSTAY_ID" TEXT,
+  "DRUG_TYPE" TEXT,
+  "DRUG" TEXT,
+  "FORMULARY_DRUG_CD" TEXT,
+  "ROUTE" TEXT,
+  "DRUG_DOSE" TEXT
+)
+
+CREATE TABLE "LAB" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ITEMID" TEXT,
+  "CHARTTIME" TEXT,
+  "FLAG" TEXT,
+  "VALUE_UNIT" TEXT,
+  "LABEL" TEXT,
+  "FLUID" TEXT,
+  "CATEGORY" TEXT
+)
+
+/* Answer the following: let me know the number of patients who have diagnosis icd9 code 9951. */
+
+/* Some SQL examples are provided based on similar problems: */
+/* Find the Conditions and Foreign Keys Needed: calculate the total number of patients who had mild degree malnutrition */
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Malnutrition mild degree']
+
+/* Find the Conditions and Foreign Keys Needed: how many patients death status is 1 with malnutrition mild degree?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.EXPIRE_FLAG = 1', 'DIAGNOSES.SHORT_TITLE = Malnutrition mild degree']
+
+/* Find the Conditions and Foreign Keys Needed: how many patients with malnutrition of mild degree stayed in the hospital for more than a day?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.DAYS_STAY > 1', 'DIAGNOSES.SHORT_TITLE = Malnutrition mild degree']
+
+/* Find the Conditions and Foreign Keys Needed: how many patients admitted before the year 2152 were diagnosed with malnutrion of mild degree?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.ADMITYEAR < 2152', 'DIAGNOSES.SHORT_TITLE = Malnutrition mild degree']
+
+/* Find the Conditions and Foreign Keys Needed: give the number of patients whose language is english and diagnosis long title is unspecified protein-calorie malnutrition.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.LANGUAGE = ENGL', 'DIAGNOSES.LONG_TITLE = Unspecified protein-calorie malnutrition']
+
+/* Find the Conditions and Foreign Keys Needed: how many of the patients with unspecified protein-calorie malnutrition were treated with a base drug?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID'), ('DEMOGRAPHIC.HADM_ID', 'PROCEDURES.HADM_ID'), ('DIAGNOSES.HADM_ID', 'PROCEDURES.HADM_ID')]
+Conditions: ['DIAGNOSES.LONG_TITLE = Unspecified protein-calorie malnutrition', 'PRESCRIPTIONS.DRUG_TYPE = BASE']
+
+/* Find the Conditions and Foreign Keys Needed: count the number of patients whose diagnosis short title is malnutrition mild degree and lab test fluid is urine.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID'), ('DEMOGRAPHIC.HADM_ID', 'PROCEDURES.HADM_ID'), ('DIAGNOSES.HADM_ID', 'PROCEDURES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Malnutrition mild degree', 'LAB.FLUID = Urine']
+
+/* Find the Conditions and Foreign Keys Needed: what is the number of patients diagnosed with nutritional marasmus who are prescribed additive type drugs?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID'), ('DEMOGRAPHIC.HADM_ID', 'PROCEDURES.HADM_ID'), ('DIAGNOSES.HADM_ID', 'PROCEDURES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Nutritional marasmus', 'PRESCRIPTIONS.DRUG_TYPE = ADDITIVE']
+
+/* Find the Conditions and Foreign Keys Needed: what is the number of patients aged less than 62 years who had hyperglycemia; hyponatremia primary disease?*/
+Foreign Keys: None
+Conditions: ['DEMOGRAPHIC.DIAGNOSIS = HYPERGLYCEMIA;HYPONATREMIA', 'DEMOGRAPHIC.AGE < 62']
+
+/* Given the following database schema: */
+CREATE TABLE "DEMOGRAPHIC" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "NAME" TEXT,
+  "MARITAL_STATUS" TEXT,
+  "AGE" INTEGER,
+  "DOB" TEXT,
+  "GENDER" TEXT,
+  "LANGUAGE" TEXT,
+  "RELIGION" TEXT,
+  "ADMISSION_TYPE" TEXT,
+  "DAYS_STAY" INTEGER,
+  "INSURANCE" TEXT,
+  "ETHNICITY" TEXT,
+  "EXPIRE_FLAG" INTEGER,
+  "ADMISSION_LOCATION" TEXT,
+  "DISCHARGE_LOCATION" TEXT,
+  "DIAGNOSIS" TEXT,
+  "DOD" TEXT,
+  "DOB_YEAR" INTEGER,
+  "DOD_YEAR" REAL,
+  "ADMITTIME" TEXT,
+  "DISCHTIME" TEXT,
+  "ADMITYEAR" INTEGER
+)
+
+CREATE TABLE "DIAGNOSES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PROCEDURES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PRESCRIPTIONS" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICUSTAY_ID" TEXT,
+  "DRUG_TYPE" TEXT,
+  "DRUG" TEXT,
+  "FORMULARY_DRUG_CD" TEXT,
+  "ROUTE" TEXT,
+  "DRUG_DOSE" TEXT
+)
+
+CREATE TABLE "LAB" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ITEMID" TEXT,
+  "CHARTTIME" TEXT,
+  "FLAG" TEXT,
+  "VALUE_UNIT" TEXT,
+  "LABEL" TEXT,
+  "FLUID" TEXT,
+  "CATEGORY" TEXT
+)
+
+/* Find the Conditions and Foreign Keys Needed: let me know the number of patients who have diagnosis icd9 code 9951. */
+Foreign Keys:  
+---------------------------------------------------------------------
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: how many patients are diagnosed with unspecified disorder of kidney and ureter and with lab results showing abnormal status?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID'), ('DEMOGRAPHIC.HADM_ID', 'PROCEDURES.HADM_ID'), ('DIAGNOSES.HADM_ID', 'PROCEDURES.HADM_ID')]
+Conditions: ['DIAGNOSES.LONG_TITLE = Unspecified disorder of kidney and ureter', 'LAB.FLAG = abnormal']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE DIAGNOSES."LONG_TITLE" = "Unspecified disorder of kidney and ureter" AND LAB."FLAG" = "abnormal"
+
+/* Answer the following: how many patients were diagnosed with an unspecified disorder of kidney and ureter and treated with a main drug type?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID'), ('DEMOGRAPHIC.HADM_ID', 'PROCEDURES.HADM_ID'), ('DIAGNOSES.HADM_ID', 'PROCEDURES.HADM_ID')]
+Conditions: ['DIAGNOSES.LONG_TITLE = Unspecified disorder of kidney and ureter', 'PRESCRIPTIONS.DRUG_TYPE = MAIN']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID INNER JOIN PRESCRIPTIONS on DEMOGRAPHIC.HADM_ID = PRESCRIPTIONS.HADM_ID WHERE DIAGNOSES."LONG_TITLE" = "Unspecified disorder of kidney and ureter" AND PRESCRIPTIONS."DRUG_TYPE" = "MAIN"
+
+/* Answer the following: how many patients have been diagnosed with short title norml pressure hydroceph anfd have had a urine lab test?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID'), ('DEMOGRAPHIC.HADM_ID', 'PROCEDURES.HADM_ID'), ('DIAGNOSES.HADM_ID', 'PROCEDURES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Norml pressure hydroceph', 'LAB.FLUID = Urine']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE DIAGNOSES."SHORT_TITLE" = "Norml pressure hydroceph" AND LAB."FLUID" = "Urine"
+
+/* Answer the following: what is the number of government health insurance patients who are diagnosed with microscopic hematuria?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.INSURANCE = Government', 'DIAGNOSES.LONG_TITLE = Microscopic hematuria']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID WHERE DEMOGRAPHIC."INSURANCE" = "Government" AND DIAGNOSES."LONG_TITLE" = "Microscopic hematuria"
+
+/* Answer the following: what number of patients were diagnosed with end stage kidney disease?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = End stage renal disease']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID WHERE DIAGNOSES."SHORT_TITLE" = "End stage renal disease"
+
+/* Answer the following: how many male patients had the diagnosis long title microscopic hematuria?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.GENDER = M', 'DIAGNOSES.LONG_TITLE = Microscopic hematuria']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID WHERE DEMOGRAPHIC."GENDER" = "M" AND DIAGNOSES."LONG_TITLE" = "Microscopic hematuria"
+
+/* Answer the following: what is the number of patients with private health insurance who had urea nitrogen, urine lab test?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.INSURANCE = Private', 'LAB.LABEL = Urea Nitrogen, Urine']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE DEMOGRAPHIC."INSURANCE" = "Private" AND LAB."LABEL" = "Urea Nitrogen, Urine"
+
+/* Answer the following: how many patients below 85 years are diagnosed with neurogenic bladder nos?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.AGE < 85', 'DIAGNOSES.LONG_TITLE = Neurogenic bladder NOS']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID WHERE DEMOGRAPHIC."AGE" < "85" AND DIAGNOSES."LONG_TITLE" = "Neurogenic bladder NOS"
+
+/* Answer the following: how many patients are diagnosed for pyelonephritis nos?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Pyelonephritis NOS']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID WHERE DIAGNOSES."SHORT_TITLE" = "Pyelonephritis NOS"
+
+/* Given the following database schema: */
+CREATE TABLE "DEMOGRAPHIC" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "NAME" TEXT,
+  "MARITAL_STATUS" TEXT,
+  "AGE" INTEGER,
+  "DOB" TEXT,
+  "GENDER" TEXT,
+  "LANGUAGE" TEXT,
+  "RELIGION" TEXT,
+  "ADMISSION_TYPE" TEXT,
+  "DAYS_STAY" INTEGER,
+  "INSURANCE" TEXT,
+  "ETHNICITY" TEXT,
+  "EXPIRE_FLAG" INTEGER,
+  "ADMISSION_LOCATION" TEXT,
+  "DISCHARGE_LOCATION" TEXT,
+  "DIAGNOSIS" TEXT,
+  "DOD" TEXT,
+  "DOB_YEAR" INTEGER,
+  "DOD_YEAR" REAL,
+  "ADMITTIME" TEXT,
+  "DISCHTIME" TEXT,
+  "ADMITYEAR" INTEGER
+)
+
+CREATE TABLE "DIAGNOSES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PROCEDURES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PRESCRIPTIONS" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICUSTAY_ID" TEXT,
+  "DRUG_TYPE" TEXT,
+  "DRUG" TEXT,
+  "FORMULARY_DRUG_CD" TEXT,
+  "ROUTE" TEXT,
+  "DRUG_DOSE" TEXT
+)
+
+CREATE TABLE "LAB" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ITEMID" TEXT,
+  "CHARTTIME" TEXT,
+  "FLAG" TEXT,
+  "VALUE_UNIT" TEXT,
+  "LABEL" TEXT,
+  "FLUID" TEXT,
+  "CATEGORY" TEXT
+)
+
+/* Answer the following: what is the total number of patiemts who had crnry athrscl natve vssl? */
+
+/* Some SQL examples are provided based on similar problems: */
+/* Find the Conditions and Foreign Keys Needed: how many patients are diagnosed with unspecified disorder of kidney and ureter and with lab results showing abnormal status?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID'), ('DEMOGRAPHIC.HADM_ID', 'PROCEDURES.HADM_ID'), ('DIAGNOSES.HADM_ID', 'PROCEDURES.HADM_ID')]
+Conditions: ['DIAGNOSES.LONG_TITLE = Unspecified disorder of kidney and ureter', 'LAB.FLAG = abnormal']
+
+/* Find the Conditions and Foreign Keys Needed: how many patients were diagnosed with an unspecified disorder of kidney and ureter and treated with a main drug type?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID'), ('DEMOGRAPHIC.HADM_ID', 'PROCEDURES.HADM_ID'), ('DIAGNOSES.HADM_ID', 'PROCEDURES.HADM_ID')]
+Conditions: ['DIAGNOSES.LONG_TITLE = Unspecified disorder of kidney and ureter', 'PRESCRIPTIONS.DRUG_TYPE = MAIN']
+
+/* Find the Conditions and Foreign Keys Needed: how many patients have been diagnosed with short title norml pressure hydroceph anfd have had a urine lab test?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID'), ('DEMOGRAPHIC.HADM_ID', 'PROCEDURES.HADM_ID'), ('DIAGNOSES.HADM_ID', 'PROCEDURES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Norml pressure hydroceph', 'LAB.FLUID = Urine']
+
+/* Find the Conditions and Foreign Keys Needed: what is the number of government health insurance patients who are diagnosed with microscopic hematuria?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.INSURANCE = Government', 'DIAGNOSES.LONG_TITLE = Microscopic hematuria']
+
+/* Find the Conditions and Foreign Keys Needed: what number of patients were diagnosed with end stage kidney disease?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = End stage renal disease']
+
+/* Find the Conditions and Foreign Keys Needed: how many male patients had the diagnosis long title microscopic hematuria?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.GENDER = M', 'DIAGNOSES.LONG_TITLE = Microscopic hematuria']
+
+/* Find the Conditions and Foreign Keys Needed: what is the number of patients with private health insurance who had urea nitrogen, urine lab test?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.INSURANCE = Private', 'LAB.LABEL = Urea Nitrogen, Urine']
+
+/* Find the Conditions and Foreign Keys Needed: how many patients below 85 years are diagnosed with neurogenic bladder nos?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.AGE < 85', 'DIAGNOSES.LONG_TITLE = Neurogenic bladder NOS']
+
+/* Find the Conditions and Foreign Keys Needed: how many patients are diagnosed for pyelonephritis nos?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Pyelonephritis NOS']
+
+/* Given the following database schema: */
+CREATE TABLE "DEMOGRAPHIC" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "NAME" TEXT,
+  "MARITAL_STATUS" TEXT,
+  "AGE" INTEGER,
+  "DOB" TEXT,
+  "GENDER" TEXT,
+  "LANGUAGE" TEXT,
+  "RELIGION" TEXT,
+  "ADMISSION_TYPE" TEXT,
+  "DAYS_STAY" INTEGER,
+  "INSURANCE" TEXT,
+  "ETHNICITY" TEXT,
+  "EXPIRE_FLAG" INTEGER,
+  "ADMISSION_LOCATION" TEXT,
+  "DISCHARGE_LOCATION" TEXT,
+  "DIAGNOSIS" TEXT,
+  "DOD" TEXT,
+  "DOB_YEAR" INTEGER,
+  "DOD_YEAR" REAL,
+  "ADMITTIME" TEXT,
+  "DISCHTIME" TEXT,
+  "ADMITYEAR" INTEGER
+)
+
+CREATE TABLE "DIAGNOSES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PROCEDURES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PRESCRIPTIONS" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICUSTAY_ID" TEXT,
+  "DRUG_TYPE" TEXT,
+  "DRUG" TEXT,
+  "FORMULARY_DRUG_CD" TEXT,
+  "ROUTE" TEXT,
+  "DRUG_DOSE" TEXT
+)
+
+CREATE TABLE "LAB" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ITEMID" TEXT,
+  "CHARTTIME" TEXT,
+  "FLAG" TEXT,
+  "VALUE_UNIT" TEXT,
+  "LABEL" TEXT,
+  "FLUID" TEXT,
+  "CATEGORY" TEXT
+)
+
+/* Find the Conditions and Foreign Keys Needed: what is the total number of patiemts who had crnry athrscl natve vssl? */
+Foreign Keys:  
+---------------------------------------------------------------------
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: how many of the patients had cardiopulm resuscita nos on urgent admission?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.ADMISSION_TYPE = URGENT', 'PROCEDURES.SHORT_TITLE = Cardiopulm resuscita NOS']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN PROCEDURES on DEMOGRAPHIC.HADM_ID = PROCEDURES.HADM_ID WHERE DEMOGRAPHIC."ADMISSION_TYPE" = "URGENT" AND PROCEDURES."SHORT_TITLE" = "Cardiopulm resuscita NOS"
+
+/* Answer the following: give me the number of elective hospital admission patients who had cardiopulmonary resuscitation, not otherwise specified.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.ADMISSION_TYPE = ELECTIVE', 'PROCEDURES.LONG_TITLE = Cardiopulmonary resuscitation, not otherwise specified']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN PROCEDURES on DEMOGRAPHIC.HADM_ID = PROCEDURES.HADM_ID WHERE DEMOGRAPHIC."ADMISSION_TYPE" = "ELECTIVE" AND PROCEDURES."LONG_TITLE" = "Cardiopulmonary resuscitation, not otherwise specified"
+
+/* Answer the following: how many patients had the diagnosis short title cardiac arrest with a main drug type?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID'), ('DEMOGRAPHIC.HADM_ID', 'PROCEDURES.HADM_ID'), ('DIAGNOSES.HADM_ID', 'PROCEDURES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Cardiac arrest', 'PRESCRIPTIONS.DRUG_TYPE = MAIN']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID INNER JOIN PRESCRIPTIONS on DEMOGRAPHIC.HADM_ID = PRESCRIPTIONS.HADM_ID WHERE DIAGNOSES."SHORT_TITLE" = "Cardiac arrest" AND PRESCRIPTIONS."DRUG_TYPE" = "MAIN"
+
+/* Answer the following: how many female patients had the diagnoses long title cardiac arrest?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.GENDER = F', 'DIAGNOSES.LONG_TITLE = Cardiac arrest']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID WHERE DEMOGRAPHIC."GENDER" = "F" AND DIAGNOSES."LONG_TITLE" = "Cardiac arrest"
+
+/* Answer the following: how many patients who had cardiopulmonary resustication ,not otherwise specified had to stay in the hospital for more than 2 days?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.DAYS_STAY > 6', 'PROCEDURES.LONG_TITLE = Cardiopulmonary resuscitation, not otherwise specified']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN PROCEDURES on DEMOGRAPHIC.HADM_ID = PROCEDURES.HADM_ID WHERE DEMOGRAPHIC."DAYS_STAY" > "6" AND PROCEDURES."LONG_TITLE" = "Cardiopulmonary resuscitation, not otherwise specified"
+
+/* Answer the following: which patients underwent atrial cardioversion and are still alive?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.EXPIRE_FLAG = 0', 'PROCEDURES.SHORT_TITLE = Atrial cardioversion']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN PROCEDURES on DEMOGRAPHIC.HADM_ID = PROCEDURES.HADM_ID WHERE DEMOGRAPHIC."EXPIRE_FLAG" = "0" AND PROCEDURES."SHORT_TITLE" = "Atrial cardioversion"
+
+/* Answer the following: give the number of patients whose diagnosis short title is do not resuscitate status.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Do not resusctate status']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID WHERE DIAGNOSES."SHORT_TITLE" = "Do not resusctate status"
+
+/* Answer the following: how many of the patients had cardiac mapping on urgent admission?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.ADMISSION_TYPE = URGENT', 'PROCEDURES.LONG_TITLE = Cardiac mapping']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN PROCEDURES on DEMOGRAPHIC.HADM_ID = PROCEDURES.HADM_ID WHERE DEMOGRAPHIC."ADMISSION_TYPE" = "URGENT" AND PROCEDURES."LONG_TITLE" = "Cardiac mapping"
+
+/* Answer the following: how many patients are discharged to home health care and done with procedure cardiopulm resuscita nos?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.DISCHARGE_LOCATION = HOME', 'PROCEDURES.SHORT_TITLE = Cardiopulm resuscita NOS']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN PROCEDURES on DEMOGRAPHIC.HADM_ID = PROCEDURES.HADM_ID WHERE DEMOGRAPHIC."DISCHARGE_LOCATION" = "HOME" AND PROCEDURES."SHORT_TITLE" = "Cardiopulm resuscita NOS"
+
+/* Given the following database schema: */
+CREATE TABLE "DEMOGRAPHIC" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "NAME" TEXT,
+  "MARITAL_STATUS" TEXT,
+  "AGE" INTEGER,
+  "DOB" TEXT,
+  "GENDER" TEXT,
+  "LANGUAGE" TEXT,
+  "RELIGION" TEXT,
+  "ADMISSION_TYPE" TEXT,
+  "DAYS_STAY" INTEGER,
+  "INSURANCE" TEXT,
+  "ETHNICITY" TEXT,
+  "EXPIRE_FLAG" INTEGER,
+  "ADMISSION_LOCATION" TEXT,
+  "DISCHARGE_LOCATION" TEXT,
+  "DIAGNOSIS" TEXT,
+  "DOD" TEXT,
+  "DOB_YEAR" INTEGER,
+  "DOD_YEAR" REAL,
+  "ADMITTIME" TEXT,
+  "DISCHTIME" TEXT,
+  "ADMITYEAR" INTEGER
+)
+
+CREATE TABLE "DIAGNOSES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PROCEDURES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PRESCRIPTIONS" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICUSTAY_ID" TEXT,
+  "DRUG_TYPE" TEXT,
+  "DRUG" TEXT,
+  "FORMULARY_DRUG_CD" TEXT,
+  "ROUTE" TEXT,
+  "DRUG_DOSE" TEXT
+)
+
+CREATE TABLE "LAB" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ITEMID" TEXT,
+  "CHARTTIME" TEXT,
+  "FLAG" TEXT,
+  "VALUE_UNIT" TEXT,
+  "LABEL" TEXT,
+  "FLUID" TEXT,
+  "CATEGORY" TEXT
+)
+
+/* Answer the following: give me the number of patients who have been diagnosed with tobacco use disorder. */
+
+/* Some SQL examples are provided based on similar problems: */
+/* Find the Conditions and Foreign Keys Needed: how many of the patients had cardiopulm resuscita nos on urgent admission?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.ADMISSION_TYPE = URGENT', 'PROCEDURES.SHORT_TITLE = Cardiopulm resuscita NOS']
+
+/* Find the Conditions and Foreign Keys Needed: give me the number of elective hospital admission patients who had cardiopulmonary resuscitation, not otherwise specified.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.ADMISSION_TYPE = ELECTIVE', 'PROCEDURES.LONG_TITLE = Cardiopulmonary resuscitation, not otherwise specified']
+
+/* Find the Conditions and Foreign Keys Needed: how many patients had the diagnosis short title cardiac arrest with a main drug type?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID'), ('DEMOGRAPHIC.HADM_ID', 'PROCEDURES.HADM_ID'), ('DIAGNOSES.HADM_ID', 'PROCEDURES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Cardiac arrest', 'PRESCRIPTIONS.DRUG_TYPE = MAIN']
+
+/* Find the Conditions and Foreign Keys Needed: how many female patients had the diagnoses long title cardiac arrest?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.GENDER = F', 'DIAGNOSES.LONG_TITLE = Cardiac arrest']
+
+/* Find the Conditions and Foreign Keys Needed: how many patients who had cardiopulmonary resustication ,not otherwise specified had to stay in the hospital for more than 2 days?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.DAYS_STAY > 6', 'PROCEDURES.LONG_TITLE = Cardiopulmonary resuscitation, not otherwise specified']
+
+/* Find the Conditions and Foreign Keys Needed: which patients underwent atrial cardioversion and are still alive?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.EXPIRE_FLAG = 0', 'PROCEDURES.SHORT_TITLE = Atrial cardioversion']
+
+/* Find the Conditions and Foreign Keys Needed: give the number of patients whose diagnosis short title is do not resuscitate status.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DIAGNOSES.SHORT_TITLE = Do not resusctate status']
+
+/* Find the Conditions and Foreign Keys Needed: how many of the patients had cardiac mapping on urgent admission?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.ADMISSION_TYPE = URGENT', 'PROCEDURES.LONG_TITLE = Cardiac mapping']
+
+/* Find the Conditions and Foreign Keys Needed: how many patients are discharged to home health care and done with procedure cardiopulm resuscita nos?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.DISCHARGE_LOCATION = HOME', 'PROCEDURES.SHORT_TITLE = Cardiopulm resuscita NOS']
+
+/* Given the following database schema: */
+CREATE TABLE "DEMOGRAPHIC" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "NAME" TEXT,
+  "MARITAL_STATUS" TEXT,
+  "AGE" INTEGER,
+  "DOB" TEXT,
+  "GENDER" TEXT,
+  "LANGUAGE" TEXT,
+  "RELIGION" TEXT,
+  "ADMISSION_TYPE" TEXT,
+  "DAYS_STAY" INTEGER,
+  "INSURANCE" TEXT,
+  "ETHNICITY" TEXT,
+  "EXPIRE_FLAG" INTEGER,
+  "ADMISSION_LOCATION" TEXT,
+  "DISCHARGE_LOCATION" TEXT,
+  "DIAGNOSIS" TEXT,
+  "DOD" TEXT,
+  "DOB_YEAR" INTEGER,
+  "DOD_YEAR" REAL,
+  "ADMITTIME" TEXT,
+  "DISCHTIME" TEXT,
+  "ADMITYEAR" INTEGER
+)
+
+CREATE TABLE "DIAGNOSES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PROCEDURES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PRESCRIPTIONS" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICUSTAY_ID" TEXT,
+  "DRUG_TYPE" TEXT,
+  "DRUG" TEXT,
+  "FORMULARY_DRUG_CD" TEXT,
+  "ROUTE" TEXT,
+  "DRUG_DOSE" TEXT
+)
+
+CREATE TABLE "LAB" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ITEMID" TEXT,
+  "CHARTTIME" TEXT,
+  "FLAG" TEXT,
+  "VALUE_UNIT" TEXT,
+  "LABEL" TEXT,
+  "FLUID" TEXT,
+  "CATEGORY" TEXT
+)
+
+/* Find the Conditions and Foreign Keys Needed: give me the number of patients who have been diagnosed with tobacco use disorder. */
+Foreign Keys:  
+---------------------------------------------------------------------
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: count the number of patients with lab test item id 50970.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.ITEMID = 50970']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."ITEMID" = "50970"
+
+/* Answer the following: count the number of patients whose lab test item id is 51254.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.ITEMID = 51254']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."ITEMID" = "51254"
+
+/* Answer the following: find out the number of patients with lab test item id 50994.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.ITEMID = 50994']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."ITEMID" = "50994"
+
+/* Answer the following: find the number of patients with lab test item id 51025.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.ITEMID = 51025']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."ITEMID" = "51025"
+
+/* Answer the following: find the number of patients whose lab test item id is 51250.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.ITEMID = 51250']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."ITEMID" = "51250"
+
+/* Answer the following: count the number of patients over the age of 82 whose lab test item id is 51379.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.AGE < 82', 'LAB.ITEMID = 51379']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE DEMOGRAPHIC."AGE" < "82" AND LAB."ITEMID" = "51379"
+
+/* Answer the following: count the number of patients whose lab test item id is 51214 and lab test satus is abnormal.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.ITEMID = 51214', 'LAB.FLAG = abnormal']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."ITEMID" = "51214" AND LAB."FLAG" = "abnormal"
+
+/* Answer the following: count the number of patients below the age of 80 whose lab test item id is 51108.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.AGE < 80', 'LAB.ITEMID = 51108']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE DEMOGRAPHIC."AGE" < "80" AND LAB."ITEMID" = "51108"
+
+/* Answer the following: count the number of patients whose item id is 50805.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.ITEMID = 50805']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."ITEMID" = "50805"
+
+/* Given the following database schema: */
+CREATE TABLE "DEMOGRAPHIC" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "NAME" TEXT,
+  "MARITAL_STATUS" TEXT,
+  "AGE" INTEGER,
+  "DOB" TEXT,
+  "GENDER" TEXT,
+  "LANGUAGE" TEXT,
+  "RELIGION" TEXT,
+  "ADMISSION_TYPE" TEXT,
+  "DAYS_STAY" INTEGER,
+  "INSURANCE" TEXT,
+  "ETHNICITY" TEXT,
+  "EXPIRE_FLAG" INTEGER,
+  "ADMISSION_LOCATION" TEXT,
+  "DISCHARGE_LOCATION" TEXT,
+  "DIAGNOSIS" TEXT,
+  "DOD" TEXT,
+  "DOB_YEAR" INTEGER,
+  "DOD_YEAR" REAL,
+  "ADMITTIME" TEXT,
+  "DISCHTIME" TEXT,
+  "ADMITYEAR" INTEGER
+)
+
+CREATE TABLE "DIAGNOSES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PROCEDURES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PRESCRIPTIONS" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICUSTAY_ID" TEXT,
+  "DRUG_TYPE" TEXT,
+  "DRUG" TEXT,
+  "FORMULARY_DRUG_CD" TEXT,
+  "ROUTE" TEXT,
+  "DRUG_DOSE" TEXT
+)
+
+CREATE TABLE "LAB" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ITEMID" TEXT,
+  "CHARTTIME" TEXT,
+  "FLAG" TEXT,
+  "VALUE_UNIT" TEXT,
+  "LABEL" TEXT,
+  "FLUID" TEXT,
+  "CATEGORY" TEXT
+)
+
+/* Answer the following: count the number of patients whose diagnosis short title is retain plastic fragments. */
+
+/* Some SQL examples are provided based on similar problems: */
+/* Find the Conditions and Foreign Keys Needed: count the number of patients with lab test item id 50970.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.ITEMID = 50970']
+
+/* Find the Conditions and Foreign Keys Needed: count the number of patients whose lab test item id is 51254.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.ITEMID = 51254']
+
+/* Find the Conditions and Foreign Keys Needed: find out the number of patients with lab test item id 50994.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.ITEMID = 50994']
+
+/* Find the Conditions and Foreign Keys Needed: find the number of patients with lab test item id 51025.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.ITEMID = 51025']
+
+/* Find the Conditions and Foreign Keys Needed: find the number of patients whose lab test item id is 51250.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.ITEMID = 51250']
+
+/* Find the Conditions and Foreign Keys Needed: count the number of patients over the age of 82 whose lab test item id is 51379.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.AGE < 82', 'LAB.ITEMID = 51379']
+
+/* Find the Conditions and Foreign Keys Needed: count the number of patients whose lab test item id is 51214 and lab test satus is abnormal.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.ITEMID = 51214', 'LAB.FLAG = abnormal']
+
+/* Find the Conditions and Foreign Keys Needed: count the number of patients below the age of 80 whose lab test item id is 51108.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.AGE < 80', 'LAB.ITEMID = 51108']
+
+/* Find the Conditions and Foreign Keys Needed: count the number of patients whose item id is 50805.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.ITEMID = 50805']
+
+/* Given the following database schema: */
+CREATE TABLE "DEMOGRAPHIC" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "NAME" TEXT,
+  "MARITAL_STATUS" TEXT,
+  "AGE" INTEGER,
+  "DOB" TEXT,
+  "GENDER" TEXT,
+  "LANGUAGE" TEXT,
+  "RELIGION" TEXT,
+  "ADMISSION_TYPE" TEXT,
+  "DAYS_STAY" INTEGER,
+  "INSURANCE" TEXT,
+  "ETHNICITY" TEXT,
+  "EXPIRE_FLAG" INTEGER,
+  "ADMISSION_LOCATION" TEXT,
+  "DISCHARGE_LOCATION" TEXT,
+  "DIAGNOSIS" TEXT,
+  "DOD" TEXT,
+  "DOB_YEAR" INTEGER,
+  "DOD_YEAR" REAL,
+  "ADMITTIME" TEXT,
+  "DISCHTIME" TEXT,
+  "ADMITYEAR" INTEGER
+)
+
+CREATE TABLE "DIAGNOSES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PROCEDURES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PRESCRIPTIONS" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICUSTAY_ID" TEXT,
+  "DRUG_TYPE" TEXT,
+  "DRUG" TEXT,
+  "FORMULARY_DRUG_CD" TEXT,
+  "ROUTE" TEXT,
+  "DRUG_DOSE" TEXT
+)
+
+CREATE TABLE "LAB" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ITEMID" TEXT,
+  "CHARTTIME" TEXT,
+  "FLAG" TEXT,
+  "VALUE_UNIT" TEXT,
+  "LABEL" TEXT,
+  "FLUID" TEXT,
+  "CATEGORY" TEXT
+)
+
+/* Find the Conditions and Foreign Keys Needed: count the number of patients whose diagnosis short title is retain plastic fragments. */
+Foreign Keys:  
+---------------------------------------------------------------------
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: how many patients are with lab test chart time 2173-03-23; 11:15:00?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2173-03-23 11:15:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2173-03-23 11:15:00"
+
+/* Answer the following: what is the number of patients who have 2154-10-11 16:00:00 lab test chart time?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2154-10-11 16:00:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2154-10-11 16:00:00"
+
+/* Answer the following: calculate the number of patients whose lab test chart time was 2133-08-01 12:06:00*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2133-08-01 12:06:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2133-08-01 12:06:00"
+
+/* Answer the following: calculate the number of patients whose lab test chart time was 2150-03-05 06:48:00*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2150-03-05 06:48:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2150-03-05 06:48:00"
+
+/* Answer the following: let me know the number of patients who have 2115-09-18 15:20:00 lab test chart time.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2115-09-18 15:20:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2115-09-18 15:20:00"
+
+/* Answer the following: count the number of patients with chart time of 2151-12-28 15:30:00 on lab test.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2151-12-28 15:30:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2151-12-28 15:30:00"
+
+/* Answer the following: get the number of patients with 2108-10-04 05:05:00 lab test chart time.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2108-10-04 05:05:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2108-10-04 05:05:00"
+
+/* Answer the following: how many patients had the lab test chart time 2124-07-01 03:07:00?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2124-07-01 03:07:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2124-07-01 03:07:00"
+
+/* Answer the following: how many patients had the lab test chart time 2146-10-21 12:00:00?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2146-10-21 12:00:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2146-10-21 12:00:00"
+
+/* Given the following database schema: */
+CREATE TABLE "DEMOGRAPHIC" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "NAME" TEXT,
+  "MARITAL_STATUS" TEXT,
+  "AGE" INTEGER,
+  "DOB" TEXT,
+  "GENDER" TEXT,
+  "LANGUAGE" TEXT,
+  "RELIGION" TEXT,
+  "ADMISSION_TYPE" TEXT,
+  "DAYS_STAY" INTEGER,
+  "INSURANCE" TEXT,
+  "ETHNICITY" TEXT,
+  "EXPIRE_FLAG" INTEGER,
+  "ADMISSION_LOCATION" TEXT,
+  "DISCHARGE_LOCATION" TEXT,
+  "DIAGNOSIS" TEXT,
+  "DOD" TEXT,
+  "DOB_YEAR" INTEGER,
+  "DOD_YEAR" REAL,
+  "ADMITTIME" TEXT,
+  "DISCHTIME" TEXT,
+  "ADMITYEAR" INTEGER
+)
+
+CREATE TABLE "DIAGNOSES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PROCEDURES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PRESCRIPTIONS" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICUSTAY_ID" TEXT,
+  "DRUG_TYPE" TEXT,
+  "DRUG" TEXT,
+  "FORMULARY_DRUG_CD" TEXT,
+  "ROUTE" TEXT,
+  "DRUG_DOSE" TEXT
+)
+
+CREATE TABLE "LAB" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ITEMID" TEXT,
+  "CHARTTIME" TEXT,
+  "FLAG" TEXT,
+  "VALUE_UNIT" TEXT,
+  "LABEL" TEXT,
+  "FLUID" TEXT,
+  "CATEGORY" TEXT
+)
+
+/* Answer the following: provide me the number of patients who have been diagnosed with chordae tendinae rupture. */
+
+/* Some SQL examples are provided based on similar problems: */
+/* Find the Conditions and Foreign Keys Needed: how many patients are with lab test chart time 2173-03-23; 11:15:00?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2173-03-23 11:15:00']
+
+/* Find the Conditions and Foreign Keys Needed: what is the number of patients who have 2154-10-11 16:00:00 lab test chart time?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2154-10-11 16:00:00']
+
+/* Find the Conditions and Foreign Keys Needed: calculate the number of patients whose lab test chart time was 2133-08-01 12:06:00*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2133-08-01 12:06:00']
+
+/* Find the Conditions and Foreign Keys Needed: calculate the number of patients whose lab test chart time was 2150-03-05 06:48:00*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2150-03-05 06:48:00']
+
+/* Find the Conditions and Foreign Keys Needed: let me know the number of patients who have 2115-09-18 15:20:00 lab test chart time.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2115-09-18 15:20:00']
+
+/* Find the Conditions and Foreign Keys Needed: count the number of patients with chart time of 2151-12-28 15:30:00 on lab test.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2151-12-28 15:30:00']
+
+/* Find the Conditions and Foreign Keys Needed: get the number of patients with 2108-10-04 05:05:00 lab test chart time.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2108-10-04 05:05:00']
+
+/* Find the Conditions and Foreign Keys Needed: how many patients had the lab test chart time 2124-07-01 03:07:00?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2124-07-01 03:07:00']
+
+/* Find the Conditions and Foreign Keys Needed: how many patients had the lab test chart time 2146-10-21 12:00:00?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2146-10-21 12:00:00']
+
+/* Given the following database schema: */
+CREATE TABLE "DEMOGRAPHIC" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "NAME" TEXT,
+  "MARITAL_STATUS" TEXT,
+  "AGE" INTEGER,
+  "DOB" TEXT,
+  "GENDER" TEXT,
+  "LANGUAGE" TEXT,
+  "RELIGION" TEXT,
+  "ADMISSION_TYPE" TEXT,
+  "DAYS_STAY" INTEGER,
+  "INSURANCE" TEXT,
+  "ETHNICITY" TEXT,
+  "EXPIRE_FLAG" INTEGER,
+  "ADMISSION_LOCATION" TEXT,
+  "DISCHARGE_LOCATION" TEXT,
+  "DIAGNOSIS" TEXT,
+  "DOD" TEXT,
+  "DOB_YEAR" INTEGER,
+  "DOD_YEAR" REAL,
+  "ADMITTIME" TEXT,
+  "DISCHTIME" TEXT,
+  "ADMITYEAR" INTEGER
+)
+
+CREATE TABLE "DIAGNOSES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PROCEDURES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PRESCRIPTIONS" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICUSTAY_ID" TEXT,
+  "DRUG_TYPE" TEXT,
+  "DRUG" TEXT,
+  "FORMULARY_DRUG_CD" TEXT,
+  "ROUTE" TEXT,
+  "DRUG_DOSE" TEXT
+)
+
+CREATE TABLE "LAB" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ITEMID" TEXT,
+  "CHARTTIME" TEXT,
+  "FLAG" TEXT,
+  "VALUE_UNIT" TEXT,
+  "LABEL" TEXT,
+  "FLUID" TEXT,
+  "CATEGORY" TEXT
+)
+
+/* Find the Conditions and Foreign Keys Needed: provide me the number of patients who have been diagnosed with chordae tendinae rupture. */
+Foreign Keys:  
+---------------------------------------------------------------------
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: how many patients are with lab test chart time 2173-03-23; 11:15:00?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2173-03-23 11:15:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2173-03-23 11:15:00"
+
+/* Answer the following: calculate the number of patients whose lab test chart time was 2133-08-01 12:06:00*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2133-08-01 12:06:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2133-08-01 12:06:00"
+
+/* Answer the following: calculate the number of patients whose lab test chart time was 2150-03-05 06:48:00*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2150-03-05 06:48:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2150-03-05 06:48:00"
+
+/* Answer the following: what is the number of patients who have 2154-10-11 16:00:00 lab test chart time?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2154-10-11 16:00:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2154-10-11 16:00:00"
+
+/* Answer the following: count the number of patients with chart time of 2151-12-28 15:30:00 on lab test.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2151-12-28 15:30:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2151-12-28 15:30:00"
+
+/* Answer the following: get the number of patients with 2108-10-04 05:05:00 lab test chart time.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2108-10-04 05:05:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2108-10-04 05:05:00"
+
+/* Answer the following: let me know the number of patients who have 2115-09-18 15:20:00 lab test chart time.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2115-09-18 15:20:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2115-09-18 15:20:00"
+
+/* Answer the following: how many patients had the lab test chart time 2124-07-01 03:07:00?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2124-07-01 03:07:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2124-07-01 03:07:00"
+
+/* Answer the following: how many patients had the lab test chart time 2146-10-21 12:00:00?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2146-10-21 12:00:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2146-10-21 12:00:00"
+
+/* Given the following database schema: */
+CREATE TABLE "DEMOGRAPHIC" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "NAME" TEXT,
+  "MARITAL_STATUS" TEXT,
+  "AGE" INTEGER,
+  "DOB" TEXT,
+  "GENDER" TEXT,
+  "LANGUAGE" TEXT,
+  "RELIGION" TEXT,
+  "ADMISSION_TYPE" TEXT,
+  "DAYS_STAY" INTEGER,
+  "INSURANCE" TEXT,
+  "ETHNICITY" TEXT,
+  "EXPIRE_FLAG" INTEGER,
+  "ADMISSION_LOCATION" TEXT,
+  "DISCHARGE_LOCATION" TEXT,
+  "DIAGNOSIS" TEXT,
+  "DOD" TEXT,
+  "DOB_YEAR" INTEGER,
+  "DOD_YEAR" REAL,
+  "ADMITTIME" TEXT,
+  "DISCHTIME" TEXT,
+  "ADMITYEAR" INTEGER
+)
+
+CREATE TABLE "DIAGNOSES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PROCEDURES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PRESCRIPTIONS" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICUSTAY_ID" TEXT,
+  "DRUG_TYPE" TEXT,
+  "DRUG" TEXT,
+  "FORMULARY_DRUG_CD" TEXT,
+  "ROUTE" TEXT,
+  "DRUG_DOSE" TEXT
+)
+
+CREATE TABLE "LAB" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ITEMID" TEXT,
+  "CHARTTIME" TEXT,
+  "FLAG" TEXT,
+  "VALUE_UNIT" TEXT,
+  "LABEL" TEXT,
+  "FLUID" TEXT,
+  "CATEGORY" TEXT
+)
+
+/* Answer the following: how many of the patients had hemorrhage complicating a procedure? */
+
+/* Some SQL examples are provided based on similar problems: */
+/* Find the Conditions and Foreign Keys Needed: how many patients are with lab test chart time 2173-03-23; 11:15:00?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2173-03-23 11:15:00']
+
+/* Find the Conditions and Foreign Keys Needed: calculate the number of patients whose lab test chart time was 2133-08-01 12:06:00*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2133-08-01 12:06:00']
+
+/* Find the Conditions and Foreign Keys Needed: calculate the number of patients whose lab test chart time was 2150-03-05 06:48:00*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2150-03-05 06:48:00']
+
+/* Find the Conditions and Foreign Keys Needed: what is the number of patients who have 2154-10-11 16:00:00 lab test chart time?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2154-10-11 16:00:00']
+
+/* Find the Conditions and Foreign Keys Needed: count the number of patients with chart time of 2151-12-28 15:30:00 on lab test.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2151-12-28 15:30:00']
+
+/* Find the Conditions and Foreign Keys Needed: get the number of patients with 2108-10-04 05:05:00 lab test chart time.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2108-10-04 05:05:00']
+
+/* Find the Conditions and Foreign Keys Needed: let me know the number of patients who have 2115-09-18 15:20:00 lab test chart time.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2115-09-18 15:20:00']
+
+/* Find the Conditions and Foreign Keys Needed: how many patients had the lab test chart time 2124-07-01 03:07:00?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2124-07-01 03:07:00']
+
+/* Find the Conditions and Foreign Keys Needed: how many patients had the lab test chart time 2146-10-21 12:00:00?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2146-10-21 12:00:00']
+
+/* Given the following database schema: */
+CREATE TABLE "DEMOGRAPHIC" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "NAME" TEXT,
+  "MARITAL_STATUS" TEXT,
+  "AGE" INTEGER,
+  "DOB" TEXT,
+  "GENDER" TEXT,
+  "LANGUAGE" TEXT,
+  "RELIGION" TEXT,
+  "ADMISSION_TYPE" TEXT,
+  "DAYS_STAY" INTEGER,
+  "INSURANCE" TEXT,
+  "ETHNICITY" TEXT,
+  "EXPIRE_FLAG" INTEGER,
+  "ADMISSION_LOCATION" TEXT,
+  "DISCHARGE_LOCATION" TEXT,
+  "DIAGNOSIS" TEXT,
+  "DOD" TEXT,
+  "DOB_YEAR" INTEGER,
+  "DOD_YEAR" REAL,
+  "ADMITTIME" TEXT,
+  "DISCHTIME" TEXT,
+  "ADMITYEAR" INTEGER
+)
+
+CREATE TABLE "DIAGNOSES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PROCEDURES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PRESCRIPTIONS" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICUSTAY_ID" TEXT,
+  "DRUG_TYPE" TEXT,
+  "DRUG" TEXT,
+  "FORMULARY_DRUG_CD" TEXT,
+  "ROUTE" TEXT,
+  "DRUG_DOSE" TEXT
+)
+
+CREATE TABLE "LAB" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ITEMID" TEXT,
+  "CHARTTIME" TEXT,
+  "FLAG" TEXT,
+  "VALUE_UNIT" TEXT,
+  "LABEL" TEXT,
+  "FLUID" TEXT,
+  "CATEGORY" TEXT
+)
+
+/* Find the Conditions and Foreign Keys Needed: how many of the patients had hemorrhage complicating a procedure? */
+Foreign Keys:  
+---------------------------------------------------------------------
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: how many patients are with lab test chart time 2173-03-23; 11:15:00?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2173-03-23 11:15:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2173-03-23 11:15:00"
+
+/* Answer the following: how many patients had the lab test chart time 2124-07-01 03:07:00?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2124-07-01 03:07:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2124-07-01 03:07:00"
+
+/* Answer the following: how many patients had the lab test chart time 2146-10-21 12:00:00?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2146-10-21 12:00:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2146-10-21 12:00:00"
+
+/* Answer the following: what is the number of patients who have 2154-10-11 16:00:00 lab test chart time?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2154-10-11 16:00:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2154-10-11 16:00:00"
+
+/* Answer the following: how many patients have 2165-10-19 05:33:00 lab tes chart time?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2165-10-19 05:33:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2165-10-19 05:33:00"
+
+/* Answer the following: how many patients had lab test chart time as 2178-02-28 16:58:00?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2178-02-28 16:58:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2178-02-28 16:58:00"
+
+/* Answer the following: count the number of patients with chart time of 2151-12-28 15:30:00 on lab test.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2151-12-28 15:30:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2151-12-28 15:30:00"
+
+/* Answer the following: let me know the number of patients who have 2115-09-18 15:20:00 lab test chart time.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2115-09-18 15:20:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2115-09-18 15:20:00"
+
+/* Answer the following: get the number of patients with 2108-10-04 05:05:00 lab test chart time.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2108-10-04 05:05:00']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE LAB."CHARTTIME" = "2108-10-04 05:05:00"
+
+/* Given the following database schema: */
+CREATE TABLE "DEMOGRAPHIC" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "NAME" TEXT,
+  "MARITAL_STATUS" TEXT,
+  "AGE" INTEGER,
+  "DOB" TEXT,
+  "GENDER" TEXT,
+  "LANGUAGE" TEXT,
+  "RELIGION" TEXT,
+  "ADMISSION_TYPE" TEXT,
+  "DAYS_STAY" INTEGER,
+  "INSURANCE" TEXT,
+  "ETHNICITY" TEXT,
+  "EXPIRE_FLAG" INTEGER,
+  "ADMISSION_LOCATION" TEXT,
+  "DISCHARGE_LOCATION" TEXT,
+  "DIAGNOSIS" TEXT,
+  "DOD" TEXT,
+  "DOB_YEAR" INTEGER,
+  "DOD_YEAR" REAL,
+  "ADMITTIME" TEXT,
+  "DISCHTIME" TEXT,
+  "ADMITYEAR" INTEGER
+)
+
+CREATE TABLE "DIAGNOSES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PROCEDURES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PRESCRIPTIONS" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICUSTAY_ID" TEXT,
+  "DRUG_TYPE" TEXT,
+  "DRUG" TEXT,
+  "FORMULARY_DRUG_CD" TEXT,
+  "ROUTE" TEXT,
+  "DRUG_DOSE" TEXT
+)
+
+CREATE TABLE "LAB" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ITEMID" TEXT,
+  "CHARTTIME" TEXT,
+  "FLAG" TEXT,
+  "VALUE_UNIT" TEXT,
+  "LABEL" TEXT,
+  "FLUID" TEXT,
+  "CATEGORY" TEXT
+)
+
+/* Answer the following: find the number of patients diagnosed with mitral valve disorders. */
+
+/* Some SQL examples are provided based on similar problems: */
+/* Find the Conditions and Foreign Keys Needed: how many patients are with lab test chart time 2173-03-23; 11:15:00?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2173-03-23 11:15:00']
+
+/* Find the Conditions and Foreign Keys Needed: how many patients had the lab test chart time 2124-07-01 03:07:00?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2124-07-01 03:07:00']
+
+/* Find the Conditions and Foreign Keys Needed: how many patients had the lab test chart time 2146-10-21 12:00:00?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2146-10-21 12:00:00']
+
+/* Find the Conditions and Foreign Keys Needed: what is the number of patients who have 2154-10-11 16:00:00 lab test chart time?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2154-10-11 16:00:00']
+
+/* Find the Conditions and Foreign Keys Needed: how many patients have 2165-10-19 05:33:00 lab tes chart time?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2165-10-19 05:33:00']
+
+/* Find the Conditions and Foreign Keys Needed: how many patients had lab test chart time as 2178-02-28 16:58:00?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2178-02-28 16:58:00']
+
+/* Find the Conditions and Foreign Keys Needed: count the number of patients with chart time of 2151-12-28 15:30:00 on lab test.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2151-12-28 15:30:00']
+
+/* Find the Conditions and Foreign Keys Needed: let me know the number of patients who have 2115-09-18 15:20:00 lab test chart time.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2115-09-18 15:20:00']
+
+/* Find the Conditions and Foreign Keys Needed: get the number of patients with 2108-10-04 05:05:00 lab test chart time.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['LAB.CHARTTIME = 2108-10-04 05:05:00']
+
+/* Given the following database schema: */
+CREATE TABLE "DEMOGRAPHIC" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "NAME" TEXT,
+  "MARITAL_STATUS" TEXT,
+  "AGE" INTEGER,
+  "DOB" TEXT,
+  "GENDER" TEXT,
+  "LANGUAGE" TEXT,
+  "RELIGION" TEXT,
+  "ADMISSION_TYPE" TEXT,
+  "DAYS_STAY" INTEGER,
+  "INSURANCE" TEXT,
+  "ETHNICITY" TEXT,
+  "EXPIRE_FLAG" INTEGER,
+  "ADMISSION_LOCATION" TEXT,
+  "DISCHARGE_LOCATION" TEXT,
+  "DIAGNOSIS" TEXT,
+  "DOD" TEXT,
+  "DOB_YEAR" INTEGER,
+  "DOD_YEAR" REAL,
+  "ADMITTIME" TEXT,
+  "DISCHTIME" TEXT,
+  "ADMITYEAR" INTEGER
+)
+
+CREATE TABLE "DIAGNOSES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PROCEDURES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PRESCRIPTIONS" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICUSTAY_ID" TEXT,
+  "DRUG_TYPE" TEXT,
+  "DRUG" TEXT,
+  "FORMULARY_DRUG_CD" TEXT,
+  "ROUTE" TEXT,
+  "DRUG_DOSE" TEXT
+)
+
+CREATE TABLE "LAB" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ITEMID" TEXT,
+  "CHARTTIME" TEXT,
+  "FLAG" TEXT,
+  "VALUE_UNIT" TEXT,
+  "LABEL" TEXT,
+  "FLUID" TEXT,
+  "CATEGORY" TEXT
+)
+
+/* Find the Conditions and Foreign Keys Needed: find the number of patients diagnosed with mitral valve disorders. */
+Foreign Keys:  
+---------------------------------------------------------------------
+/* Some SQL examples are provided based on similar problems: */
+/* Answer the following: calculate the minimum age of unmarried patients who have acidosis primary disease.*/
+Foreign Keys: None
+Conditions: ['DEMOGRAPHIC.MARITAL_STATUS = SINGLE', 'DEMOGRAPHIC.DIAGNOSIS = ACIDOSIS']
+SELECT MIN ( DEMOGRAPHIC."AGE" ) FROM DEMOGRAPHIC WHERE DEMOGRAPHIC."MARITAL_STATUS" = "SINGLE" AND DEMOGRAPHIC."DIAGNOSIS" = "ACIDOSIS"
+
+/* Answer the following: get the number of patients who have pr route of drug administration and have acidosis primary disease.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.DIAGNOSIS = ACIDOSIS', 'PRESCRIPTIONS.ROUTE = PR']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN PRESCRIPTIONS on DEMOGRAPHIC.HADM_ID = PRESCRIPTIONS.HADM_ID WHERE DEMOGRAPHIC."DIAGNOSIS" = "ACIDOSIS" AND PRESCRIPTIONS."ROUTE" = "PR"
+
+/* Answer the following: show the number of divorced patients who had lab test for uric acid. */
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.MARITAL_STATUS = DIVORCED', 'LAB.LABEL = Uric Acid']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN LAB on DEMOGRAPHIC.HADM_ID = LAB.HADM_ID WHERE DEMOGRAPHIC."MARITAL_STATUS" = "DIVORCED" AND LAB."LABEL" = "Uric Acid"
+
+/* Answer the following: how many patients are diagnosed with primary disease acidosis and died in or before the year 2131?*/
+Foreign Keys: None
+Conditions: ['DEMOGRAPHIC.DIAGNOSIS = ACIDOSIS', 'DEMOGRAPHIC.DOD_YEAR <= 2131.0']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC WHERE DEMOGRAPHIC."DIAGNOSIS" = "ACIDOSIS" AND DEMOGRAPHIC."DOD_YEAR" <= "2131.0"
+
+/* Answer the following: what is the number of office admission patients who have been diagnosed with acidosis?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.ADMISSION_LOCATION = CLINIC REFERRAL/PREMATURE', 'DIAGNOSES.LONG_TITLE = Acidosis']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID WHERE DEMOGRAPHIC."ADMISSION_LOCATION" = "CLINIC REFERRAL/PREMATURE" AND DIAGNOSES."LONG_TITLE" = "Acidosis"
+
+/* Answer the following: count the number of unmarried patients who have copd exacerbation primary disease.*/
+Foreign Keys: None
+Conditions: ['DEMOGRAPHIC.MARITAL_STATUS = SINGLE', 'DEMOGRAPHIC.DIAGNOSIS = COPD EXACERBATION']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC WHERE DEMOGRAPHIC."MARITAL_STATUS" = "SINGLE" AND DEMOGRAPHIC."DIAGNOSIS" = "COPD EXACERBATION"
+
+/* Answer the following: how many patients less than 63 years of age have acidosis?*/
+Foreign Keys: None
+Conditions: ['DEMOGRAPHIC.DIAGNOSIS = ACIDOSIS', 'DEMOGRAPHIC.AGE < 63']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC WHERE DEMOGRAPHIC."DIAGNOSIS" = "ACIDOSIS" AND DEMOGRAPHIC."AGE" < "63"
+
+/* Answer the following: calculate the number of patients who have primary disease acidosis and underwent contrast aortogram procedure.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.DIAGNOSIS = ACIDOSIS', 'PROCEDURES.SHORT_TITLE = Contrast aortogram']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN PROCEDURES on DEMOGRAPHIC.HADM_ID = PROCEDURES.HADM_ID WHERE DEMOGRAPHIC."DIAGNOSIS" = "ACIDOSIS" AND PROCEDURES."SHORT_TITLE" = "Contrast aortogram"
+
+/* Answer the following: what is the number of patients admitted before 2179 diagnosed with acidosis?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.ADMITYEAR < 2179', 'DIAGNOSES.SHORT_TITLE = Acidosis']
+SELECT COUNT ( DISTINCT DEMOGRAPHIC."SUBJECT_ID" ) FROM DEMOGRAPHIC INNER JOIN DIAGNOSES on DEMOGRAPHIC.HADM_ID = DIAGNOSES.HADM_ID WHERE DEMOGRAPHIC."ADMITYEAR" < "2179" AND DIAGNOSES."SHORT_TITLE" = "Acidosis"
+
+/* Given the following database schema: */
+CREATE TABLE "DEMOGRAPHIC" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "NAME" TEXT,
+  "MARITAL_STATUS" TEXT,
+  "AGE" INTEGER,
+  "DOB" TEXT,
+  "GENDER" TEXT,
+  "LANGUAGE" TEXT,
+  "RELIGION" TEXT,
+  "ADMISSION_TYPE" TEXT,
+  "DAYS_STAY" INTEGER,
+  "INSURANCE" TEXT,
+  "ETHNICITY" TEXT,
+  "EXPIRE_FLAG" INTEGER,
+  "ADMISSION_LOCATION" TEXT,
+  "DISCHARGE_LOCATION" TEXT,
+  "DIAGNOSIS" TEXT,
+  "DOD" TEXT,
+  "DOB_YEAR" INTEGER,
+  "DOD_YEAR" REAL,
+  "ADMITTIME" TEXT,
+  "DISCHTIME" TEXT,
+  "ADMITYEAR" INTEGER
+)
+
+CREATE TABLE "DIAGNOSES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PROCEDURES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PRESCRIPTIONS" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICUSTAY_ID" TEXT,
+  "DRUG_TYPE" TEXT,
+  "DRUG" TEXT,
+  "FORMULARY_DRUG_CD" TEXT,
+  "ROUTE" TEXT,
+  "DRUG_DOSE" TEXT
+)
+
+CREATE TABLE "LAB" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ITEMID" TEXT,
+  "CHARTTIME" TEXT,
+  "FLAG" TEXT,
+  "VALUE_UNIT" TEXT,
+  "LABEL" TEXT,
+  "FLUID" TEXT,
+  "CATEGORY" TEXT
+)
+
+/* Answer the following: calulate the total number of patient who had icd9 code 5771 */
+
+/* Some SQL examples are provided based on similar problems: */
+/* Find the Conditions and Foreign Keys Needed: calculate the minimum age of unmarried patients who have acidosis primary disease.*/
+Foreign Keys: None
+Conditions: ['DEMOGRAPHIC.MARITAL_STATUS = SINGLE', 'DEMOGRAPHIC.DIAGNOSIS = ACIDOSIS']
+
+/* Find the Conditions and Foreign Keys Needed: get the number of patients who have pr route of drug administration and have acidosis primary disease.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.DIAGNOSIS = ACIDOSIS', 'PRESCRIPTIONS.ROUTE = PR']
+
+/* Find the Conditions and Foreign Keys Needed: show the number of divorced patients who had lab test for uric acid. */
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.MARITAL_STATUS = DIVORCED', 'LAB.LABEL = Uric Acid']
+
+/* Find the Conditions and Foreign Keys Needed: how many patients are diagnosed with primary disease acidosis and died in or before the year 2131?*/
+Foreign Keys: None
+Conditions: ['DEMOGRAPHIC.DIAGNOSIS = ACIDOSIS', 'DEMOGRAPHIC.DOD_YEAR <= 2131.0']
+
+/* Find the Conditions and Foreign Keys Needed: what is the number of office admission patients who have been diagnosed with acidosis?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.ADMISSION_LOCATION = CLINIC REFERRAL/PREMATURE', 'DIAGNOSES.LONG_TITLE = Acidosis']
+
+/* Find the Conditions and Foreign Keys Needed: count the number of unmarried patients who have copd exacerbation primary disease.*/
+Foreign Keys: None
+Conditions: ['DEMOGRAPHIC.MARITAL_STATUS = SINGLE', 'DEMOGRAPHIC.DIAGNOSIS = COPD EXACERBATION']
+
+/* Find the Conditions and Foreign Keys Needed: how many patients less than 63 years of age have acidosis?*/
+Foreign Keys: None
+Conditions: ['DEMOGRAPHIC.DIAGNOSIS = ACIDOSIS', 'DEMOGRAPHIC.AGE < 63']
+
+/* Find the Conditions and Foreign Keys Needed: calculate the number of patients who have primary disease acidosis and underwent contrast aortogram procedure.*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.DIAGNOSIS = ACIDOSIS', 'PROCEDURES.SHORT_TITLE = Contrast aortogram']
+
+/* Find the Conditions and Foreign Keys Needed: what is the number of patients admitted before 2179 diagnosed with acidosis?*/
+Foreign Keys: [('DEMOGRAPHIC.HADM_ID', 'DIAGNOSES.HADM_ID')]
+Conditions: ['DEMOGRAPHIC.ADMITYEAR < 2179', 'DIAGNOSES.SHORT_TITLE = Acidosis']
+
+/* Given the following database schema: */
+CREATE TABLE "DEMOGRAPHIC" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "NAME" TEXT,
+  "MARITAL_STATUS" TEXT,
+  "AGE" INTEGER,
+  "DOB" TEXT,
+  "GENDER" TEXT,
+  "LANGUAGE" TEXT,
+  "RELIGION" TEXT,
+  "ADMISSION_TYPE" TEXT,
+  "DAYS_STAY" INTEGER,
+  "INSURANCE" TEXT,
+  "ETHNICITY" TEXT,
+  "EXPIRE_FLAG" INTEGER,
+  "ADMISSION_LOCATION" TEXT,
+  "DISCHARGE_LOCATION" TEXT,
+  "DIAGNOSIS" TEXT,
+  "DOD" TEXT,
+  "DOB_YEAR" INTEGER,
+  "DOD_YEAR" REAL,
+  "ADMITTIME" TEXT,
+  "DISCHTIME" TEXT,
+  "ADMITYEAR" INTEGER
+)
+
+CREATE TABLE "DIAGNOSES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PROCEDURES" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICD9_CODE" TEXT,
+  "SHORT_TITLE" TEXT,
+  "LONG_TITLE" TEXT
+)
+
+CREATE TABLE "PRESCRIPTIONS" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ICUSTAY_ID" TEXT,
+  "DRUG_TYPE" TEXT,
+  "DRUG" TEXT,
+  "FORMULARY_DRUG_CD" TEXT,
+  "ROUTE" TEXT,
+  "DRUG_DOSE" TEXT
+)
+
+CREATE TABLE "LAB" (
+"SUBJECT_ID" TEXT,
+  "HADM_ID" TEXT,
+  "ITEMID" TEXT,
+  "CHARTTIME" TEXT,
+  "FLAG" TEXT,
+  "VALUE_UNIT" TEXT,
+  "LABEL" TEXT,
+  "FLUID" TEXT,
+  "CATEGORY" TEXT
+)
+
+/* Find the Conditions and Foreign Keys Needed: calulate the total number of patient who had icd9 code 5771 */
+Foreign Keys:  
+---------------------------------------------------------------------

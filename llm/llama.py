@@ -29,7 +29,6 @@ class TextGenerator:
                 token=self.token
             )
             print(model.config)
-            model.eval()
             # model = exllama_set_max_input_length(model, 8192)
             print(torch.cuda.memory_summary())
             # return model.to(self.device)
